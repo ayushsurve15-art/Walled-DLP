@@ -1,0 +1,10 @@
+{
+  "name": "walled-dlp-tests",
+  "private": true,
+  "description": "Browser end-to-end tests for Walled DLP (no dependencies; needs Node 22+ and Google Chrome).",
+  "type": "module",
+  "scripts": {
+    "test:e2e": "node --test --test-concurrency=1 tests/e2e/browser.test.mjs",
+    "test:live": "LIVE=1 node --test --test-concurrency=1 tests/e2e/live.test.mjs"
+  }
+}
