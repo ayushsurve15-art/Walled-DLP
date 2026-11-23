@@ -70,7 +70,7 @@ test("live Perplexity: typeahead, Cancel, Continue, response colour", { skip, ti
 test("live ChatGPT: Cancel, edit and Continue, colour, image uploads", { skip, timeout: 240_000 }, async () => {
   const b = await launch({ headless: false });
   const composer = "textarea[name=prompt], #prompt-textarea";
-  const turns = (p, role) => p.eval(`document.querySelectorAll('[data-message-role=${role}], [data-message-author-role=${role}]').length`);
+  const turns = (p, role) => p.eval(`document.querySelectorAll('[data-message-role=${role}], [data-message-author-role=${role}], [data-conversation-role=${role}]').length`);
   try {
     const p = await b.newPage("https://chatgpt.com/");
     await p.waitFor(`!!document.querySelector(${JSON.stringify(composer)})`, 60000);
@@ -93,9 +93,9 @@ test("live ChatGPT: Cancel, edit and Continue, colour, image uploads", { skip, t
     await p.eval(`(() => { const e = document.querySelector(${JSON.stringify(composer)}); e.focus(); e.setSelectionRange(e.value.length, e.value.length); })()`);
     await p.type(" Answer yes or no.");
     await p.press("Enter");
-    await p.waitFor(`document.querySelectorAll('[data-message-role=assistant] [data-assistant-markdown] p, [data-message-author-role=assistant] .markdown p').length > 0`, 60000);
+    await p.waitFor(`document.querySelectorAll('[data-message-role=assistant] [data-assistant-markdown] p, [data-message-author-role=assistant] p, [data-conversation-role=assistant] ~ [data-response-body] p').length > 0`, 60000);
     assert.equal(b.dialog.calls().length, 1);
-    const colour = await p.eval(`getComputedStyle(document.querySelector('[data-message-role=assistant] [data-assistant-markdown] p, [data-message-author-role=assistant] .markdown p')).color`);
+    const colour = await p.eval(`getComputedStyle(document.querySelector('[data-message-role=assistant] [data-assistant-markdown] p, [data-message-author-role=assistant] p, [data-conversation-role=assistant] ~ [data-response-body] p')).color`);
     assert.equal(colour, VIOLET);
 
     // Image uploads: OCR finds the marker; Cancel keeps it off OpenAI's storage.

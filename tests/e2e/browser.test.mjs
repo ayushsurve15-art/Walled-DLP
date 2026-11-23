@@ -58,8 +58,8 @@ test("ChatGPT: a prompt without the marker is sent with no dialog, and the answe
   await status(p, "sent");
   assert.equal(b.dialog.calls().length, 0);
   assert.equal(fx.reached("/backend-api/f/conversation").length, 1);
-  const [answer, user] = await p.eval(`[getComputedStyle(document.querySelector('[data-message-author-role=assistant] .markdown p')).color,
-    getComputedStyle(document.querySelector('[data-message-author-role=user] div')).color]`);
+  const [answer, user] = await p.eval(`[getComputedStyle(document.querySelector('[data-conversation-role=assistant] ~ [data-response-body] p')).color,
+    getComputedStyle(document.querySelector('[data-conversation-role=user] ~ div')).color]`);
   assert.equal(answer, VIOLET);
   assert.notEqual(user, VIOLET);
   await p.close();

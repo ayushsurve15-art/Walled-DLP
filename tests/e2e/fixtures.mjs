@@ -26,9 +26,9 @@ $("#f").addEventListener("submit", async (e) => {
   if (!r.ok) { say((await r.json()).detail); return; }   // text stays in the box
   const answer = await r.text();
   $("#thread").insertAdjacentHTML("beforeend",
-    '<div data-message-author-role="user"><div class="whitespace-pre-wrap"></div></div>' +
-    '<div data-message-author-role="assistant"><div class="markdown prose"><p></p></div></div>');
-  $("#thread").lastElementChild.previousElementSibling.firstChild.textContent = text;
+    '<div><h4 data-conversation-role="user" class="sr-only">You said:</h4><div class="whitespace-pre-wrap"></div></div>' +
+    '<div><h4 data-conversation-role="assistant" class="sr-only">ChatGPT said:</h4><div data-response-body><p></p></div></div>');
+  $("#thread").lastElementChild.previousElementSibling.querySelector("div").textContent = text;
   $("#thread").lastElementChild.querySelector("p").textContent = answer;
   $("#prompt-textarea").value = "";
   say("sent");

@@ -178,7 +178,7 @@ Both sites are single-page apps: the HTML document loads once and every answer r
 - **Inserted as the page streams.** The proxy asks the server for an uncompressed document (`Accept-Encoding: identity`; gzip and deflate are also decoded). It inserts the `<style>` right after `<head …>` and re-chunks the rest straight through. Nothing beyond the first few kilobytes is buffered, so pages load as fast as before.
 - **CSP-aware.** If the page's Content-Security-Policy restricts inline styles, a per-response nonce is added for this one element only. Directives that already allow `'unsafe-inline'` are left alone, because adding a nonce there would switch `'unsafe-inline'` off.
 - **Selectors** (in `sites.py`):
-  - ChatGPT's assistant turns: `[data-message-author-role="assistant"] .markdown` when signed in, `[data-message-role="assistant"] [data-assistant-markdown]` when logged out.
+  - ChatGPT's assistant turns: what follows the hidden `h4[data-conversation-role="assistant"]` label (the `[data-response-body]` div) when signed in, with `[data-message-author-role="assistant"]` kept for the older message view, `[data-message-role="assistant"] [data-assistant-markdown]` when logged out.
   - Perplexity's answers: `[data-renderer="lm"]`. Perplexity renders the user's own question with the same renderer inside `[data-message-bubble]`, so that is excluded.
 - **Colour.** Violet `#6d28d9`, or `#c4b5fd` on dark themes, or the colour chosen in the app. Invalid colour strings are rejected, so the setting can't inject CSS.
 

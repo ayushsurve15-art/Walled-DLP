@@ -83,9 +83,13 @@ CHATGPT = Site(
     ),
     page_hosts=("chatgpt.com", "chat.openai.com"),
     response_selectors=(
-        # Signed-in app
-        '[data-message-author-role="assistant"] .markdown',
-        '[data-message-author-role="assistant"] .markdown *',
+        # Signed-in app (current): each turn has a hidden <h4 data-conversation-role="assistant">
+        # label with the answer (div[data-response-body]) next to it, so colour what follows it.
+        '[data-conversation-role="assistant"] ~ *',
+        '[data-conversation-role="assistant"] ~ * *',
+        # Signed-in app (older message view, still in the code): the role is on the turn wrapper.
+        '[data-message-author-role="assistant"]',
+        '[data-message-author-role="assistant"] *',
         # Logged-out / mobile web app
         '[data-message-role="assistant"] [data-assistant-markdown]',
         '[data-message-role="assistant"] [data-assistant-markdown] *',

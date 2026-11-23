@@ -8,7 +8,7 @@ from walled_dlp.pagestyle import HtmlInjector, adjust_csp, prepare_page_response
 
 def test_stylesheet_targets_both_sites_and_skips_user_bubbles():
     css = stylesheet()
-    assert '[data-message-author-role="assistant"] .markdown' in css
+    assert '[data-conversation-role="assistant"] ~ * *' in css
     assert '[data-message-role="assistant"] [data-assistant-markdown]' in css
     assert '[data-renderer="lm"]:not([data-message-bubble] *)' in css
     assert "#6d28d9" in css and "#c4b5fd" in css
